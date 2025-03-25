@@ -1,0 +1,29 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Database files (if you ever generate any local DBs)
+*.db
+
+# Environment variables (secrets, credentials)
+.env
+
+# OS-specific files
+.DS_Store         # macOS
+Thumbs.db         # Windows
+
+# Editor settings
+.vscode/
+
+# Git-specific files (just in case)
+*.swp
+
+# Python virtual environment (if you create one)
+venv/
+env/
+
+# Logs
+*.log
+
+# Ignore your setup script if you want to keep it private
+# project_setup.sh 
