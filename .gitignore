@@ -26,4 +26,4 @@ env/
 *.log
 
 # Ignore your setup script if you want to keep it private
-# project_setup.sh 
+project_setup.sh 
