@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "user_id": 1,
+        "title": "Finish OOP assignment",
+        "description": "Implement the User and Task models using file storage.",
+        "due_date": "2025-03-30",
+        "priority": "High",
+        "status": "Pending",
+        "tags": [
+            "school",
+            "python",
+            "oop"
+        ],
+        "created_at": "2025-03-26T10:00:00",
+        "updated_at": "2025-03-26T10:00:00"
+    }
+]
