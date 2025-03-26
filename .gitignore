@@ -27,3 +27,7 @@ env/
 
 # Ignore your setup script if you want to keep it private
 project_setup.sh 
+
+# ignore storage files ( json format ) 
+data/users.json
+data/tasks.json
