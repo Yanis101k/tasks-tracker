@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register | Task Tracker</title>
+  <link rel="stylesheet" href="css/styles.css"> <!-- Optional -->
+</head>
+<body>
+  <h1>User Registration</h1>
+
+  <!-- ✅ Form (no action, handled by JavaScript) -->
+  <form id="registerForm">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <div id="message"></div>
+
+  <script>
+    const form = document.getElementById("registerForm");
+    const messageDiv = document.getElementById("message");
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault(); // Prevent form reload
+
+      const formData = new FormData(form);
+      const data = new URLSearchParams(formData);
+
+      try {
+        const response = await fetch("http://localhost:8000/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: data
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          messageDiv.textContent = "✅ " + result.message;
+          messageDiv.style.color = "green";
+        } else {
+          messageDiv.textContent = "❌ " + result.error;
+          messageDiv.style.color = "red";
+        }
+      } catch (error) {
+        messageDiv.textContent = "❌ Network error: " + error.message;
+        messageDiv.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

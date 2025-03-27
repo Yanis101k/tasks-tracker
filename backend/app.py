@@ -22,6 +22,7 @@ class SimpleBackend(BaseHTTPRequestHandler):
         """
         self.send_response(status)
         self.send_header("Content-type", content_type)
+        self.send_header("Access-Control-Allow-Origin", "*")  # Allow requests from frontend
         self.end_headers()
 
     def do_GET(self):
