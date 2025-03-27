@@ -8,7 +8,6 @@
 <body>
   <h1>User Login</h1>
 
-  <!-- ✅ No action/method, we use JS -->
   <form id="loginForm">
     <label for="email">Email:</label><br>
     <input type="email" id="email" name="email" required><br><br>
@@ -41,17 +40,15 @@
         });
 
         const result = await response.json();
-        console.log("📦 Server response:", result); // ✅ Debug output
+        console.log("📦 Server response:", result);
 
         if (response.ok && result.message) {
           messageDiv.textContent = "✅ " + result.message;
           messageDiv.style.color = "green";
 
-          // Optional: store user info in localStorage
+          // ✅ Store session and redirect to dashboard
           localStorage.setItem("username", result.username);
-
-          // Optional: redirect to dashboard
-          // window.location.href = "/dashboard";
+          window.location.href = "/dashboard";
         } else {
           messageDiv.textContent = "❌ " + (result.error || "Login failed.");
           messageDiv.style.color = "red";

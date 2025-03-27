@@ -104,12 +104,14 @@ class SimpleBackend(BaseHTTPRequestHandler):
 
         self._set_headers("application/json")
         if user:
-            response = {"message": "User registered successfully."}
+            # ✅ Include username in the response for auto-login
+            self.wfile.write(json.dumps({
+                "message": "User registered successfully.",
+                "username": user.get_username()
+            }).encode())
         else:
-            response = {"error": "User already exists."}
+            self.wfile.write(json.dumps({"error": "User already exists."}).encode())
 
-        print(" Sending response:", response)  # ✅ DEBUG LINE
-        self.wfile.write(json.dumps(response).encode())
 
     def handle_login(self, data):
         """

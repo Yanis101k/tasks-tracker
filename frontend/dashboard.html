@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | Task Tracker</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>Welcome, <span id="username">User</span>!</h1>
+
+  <button id="logoutBtn">Logout</button>
+
+  <h2>Your Tasks</h2>
+  <ul id="taskList"></ul>
+
+  <h2>Add a Task</h2>
+  <form id="taskForm">
+    <input type="text" name="title" placeholder="Title" required>
+    <input type="text" name="description" placeholder="Description">
+    <input type="date" name="due_date">
+    <select name="priority">
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+    <button type="submit">Add Task</button>
+  </form>
+
+  <div id="message"></div>
+
+  <script>
+    const username = localStorage.getItem("username");
+    const taskList = document.getElementById("taskList");
+    const taskForm = document.getElementById("taskForm");
+    const messageDiv = document.getElementById("message");
+
+    // Redirect if not logged in
+    if (!username) {
+      window.location.href = "/login";
+    }
+
+    document.getElementById("username").textContent = username;
+
+    // Load tasks from backend
+    async function loadTasks() {
+      try {
+        const res = await fetch(`http://localhost:8000/tasks?user=${username}`);
+        const result = await res.json();
+        taskList.innerHTML = "";
+
+        result.tasks.forEach(task => {
+          const li = document.createElement("li");
+          li.textContent = `${task.title} (${task.priority}) - ${task.status}`;
+          taskList.appendChild(li);
+        });
+      } catch (err) {
+        taskList.innerHTML = "<li>❌ Failed to load tasks.</li>";
+      }
+    }
+
+    // Submit new task
+    taskForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(taskForm);
+      formData.append("username", username);
+
+      try {
+        const res = await fetch("http://localhost:8000/create-task", {
+          method: "POST",
+          body: new URLSearchParams(formData),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        });
+
+        const result = await res.json();
+        if (res.ok && result.message) {
+          messageDiv.textContent = "✅ " + result.message;
+          messageDiv.style.color = "green";
+          taskForm.reset();
+          loadTasks();
+        } else {
+          messageDiv.textContent = "❌ " + (result.error || "Unknown error");
+          messageDiv.style.color = "red";
+        }
+
+      } catch (err) {
+        messageDiv.textContent = "❌ Network error: " + err.message;
+        messageDiv.style.color = "red";
+      }
+    });
+
+    // Logout handler
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("username");
+      window.location.href = "/login";
+    });
+
+    // Initial task load
+    loadTasks();
+  </script>
+</body>
+</html>

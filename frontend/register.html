@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Register | Task Tracker</title>
-  <link rel="stylesheet" href="css/styles.css"> <!-- Optional -->
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <h1>User Registration</h1>
 
-  <!-- ✅ Form (no action, handled by JavaScript) -->
   <form id="registerForm">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username" required><br><br>
@@ -25,13 +24,13 @@
   <div id="message"></div>
 
   <script>
-    const form = document.getElementById("registerForm");
+    const registerForm = document.getElementById("registerForm");
     const messageDiv = document.getElementById("message");
 
-    form.addEventListener("submit", async function (event) {
-      event.preventDefault(); // Prevent form reload
+    registerForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
 
-      const formData = new FormData(form);
+      const formData = new FormData(registerForm);
       const data = new URLSearchParams(formData);
 
       try {
@@ -44,15 +43,15 @@
         });
 
         const result = await response.json();
-        console.log("📦 Server response:", result); // ✅ ADD THIS
+        console.log("📦 Server response:", result);
 
-
-        if (response.ok && result.message) {
-        messageDiv.textContent = "✅ " + result.message;
-        messageDiv.style.color = "green";
+        if (response.ok && result.message && result.username) {
+          // ✅ Store session and redirect
+          localStorage.setItem("username", result.username);
+          window.location.href = "/dashboard";
         } else {
-        messageDiv.textContent = "❌ " + (result.error || "Unknown error");
-        messageDiv.style.color = "red";
+          messageDiv.textContent = "❌ " + (result.error || "Registration failed.");
+          messageDiv.style.color = "red";
         }
 
       } catch (error) {
