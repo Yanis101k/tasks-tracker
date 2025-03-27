@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Task Tracker</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>User Login</h1>
+
+  <!-- ✅ No action/method, we use JS -->
+  <form id="loginForm">
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <button type="submit">Login</button>
+  </form>
+
+  <div id="message"></div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const messageDiv = document.getElementById("message");
+
+    loginForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(loginForm);
+      const data = new URLSearchParams(formData);
+
+      try {
+        const response = await fetch("http://localhost:8000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: data
+        });
+
+        const result = await response.json();
+        console.log("📦 Server response:", result); // ✅ Debug output
+
+        if (response.ok && result.message) {
+          messageDiv.textContent = "✅ " + result.message;
+          messageDiv.style.color = "green";
+
+          // Optional: store user info in localStorage
+          localStorage.setItem("username", result.username);
+
+          // Optional: redirect to dashboard
+          // window.location.href = "/dashboard";
+        } else {
+          messageDiv.textContent = "❌ " + (result.error || "Login failed.");
+          messageDiv.style.color = "red";
+        }
+
+      } catch (error) {
+        messageDiv.textContent = "❌ Network error: " + error.message;
+        messageDiv.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -44,14 +44,17 @@
         });
 
         const result = await response.json();
+        console.log("📦 Server response:", result); // ✅ ADD THIS
 
-        if (response.ok) {
-          messageDiv.textContent = "✅ " + result.message;
-          messageDiv.style.color = "green";
+
+        if (response.ok && result.message) {
+        messageDiv.textContent = "✅ " + result.message;
+        messageDiv.style.color = "green";
         } else {
-          messageDiv.textContent = "❌ " + result.error;
-          messageDiv.style.color = "red";
+        messageDiv.textContent = "❌ " + (result.error || "Unknown error");
+        messageDiv.style.color = "red";
         }
+
       } catch (error) {
         messageDiv.textContent = "❌ Network error: " + error.message;
         messageDiv.style.color = "red";
