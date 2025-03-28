@@ -28,8 +28,7 @@ class SimpleBackend(BaseHTTPRequestHandler):
             Handle GET requests for frontend pages and API routes.
             """
             if self.path == "/":
-                self._set_headers("text/html")
-                self.wfile.write(b"<h1> Task Tracker Server is Running</h1><p>Visit /register or /login</p>")
+               self.serve_html_file("frontend/index.html")
 
             elif self.path == "/register":
                 self.serve_html_file("frontend/register.html")
@@ -71,6 +70,7 @@ class SimpleBackend(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps({"tasks": tasks_data}).encode())
 
 
+
     
     def do_POST(self):
         """
@@ -86,9 +86,15 @@ class SimpleBackend(BaseHTTPRequestHandler):
             self.handle_login(parsed_data)
         elif self.path == "/create-task":
              self.handle_create_task(parsed_data)
+        elif self.path == "/update-task":
+             self.handle_update_task(parsed_data)
+        elif self.path == "/delete-task":
+             self.handle_delete_task(parsed_data)
         else:
             self._set_headers("application/json", 404)
             self.wfile.write(json.dumps({"error": "Route not found"}).encode())
+        
+
 
     def handle_register(self, data):
         username = data.get("username", [None])[0]
@@ -160,6 +166,61 @@ class SimpleBackend(BaseHTTPRequestHandler):
 
         self._set_headers("application/json")
         self.wfile.write(json.dumps({"message": "Task added!"}).encode())
+
+    def handle_update_task(self, data):
+        from core.controllers.auth_controller import AuthController
+        from core.controllers.task_controller import TaskController
+
+        username = data.get("username", [None])[0]
+        task_id = data.get("task_id", [None])[0]
+        title = data.get("title", [""])[0]
+        description = data.get("description", [""])[0]
+        priority = data.get("priority", ["Low"])[0]
+        status = data.get("status", ["Pending"])[0]
+
+        if not username or not task_id:
+            self._set_headers("application/json", 400)
+            self.wfile.write(json.dumps({"error": "Missing username or task ID"}).encode())
+            return
+
+        user = AuthController.find_user_by_username(username)
+        if not user:
+            self._set_headers("application/json", 404)
+            self.wfile.write(json.dumps({"error": "User not found"}).encode())
+            return
+
+        updates = {
+            "title": title,
+            "description": description,
+            "priority": priority,
+            "status": status
+        }
+
+        success = TaskController.update_task(int(task_id), updates)
+
+        self._set_headers("application/json")
+        if success:
+            self.wfile.write(json.dumps({"message": "Task updated successfully."}).encode())
+        else:
+            self.wfile.write(json.dumps({"error": "Task not found or update failed."}).encode())
+
+    def handle_delete_task(self, data):
+        from core.controllers.task_controller import TaskController
+
+        task_id = data.get("task_id", [None])[0]
+
+        if not task_id:
+            self._set_headers("application/json", 400)
+            self.wfile.write(json.dumps({"error": "Missing task ID"}).encode())
+            return
+
+        success = TaskController.delete_task(int(task_id))
+
+        self._set_headers("application/json")
+        if success:
+            self.wfile.write(json.dumps({"message": "Task deleted successfully."}).encode())
+        else:
+            self.wfile.write(json.dumps({"error": "Task not found."}).encode())
 
     def serve_html_file(self, filepath):
         """
