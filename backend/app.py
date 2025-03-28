@@ -68,6 +68,22 @@ class SimpleBackend(BaseHTTPRequestHandler):
                 tasks_data = [t.to_dict() for t in tasks]
                 self._set_headers("application/json")
                 self.wfile.write(json.dumps({"tasks": tasks_data}).encode())
+                
+                # make sure my back end serve static files 
+            elif self.path.startswith("/css/") or self.path.startswith("/js/"):
+                file_path = "frontend" + self.path
+                try:
+                    with open(file_path, "rb") as f:
+                        if self.path.endswith(".css"):
+                            self._set_headers("text/css")
+                        elif self.path.endswith(".js"):
+                            self._set_headers("application/javascript")
+                        else:
+                            self._set_headers("application/octet-stream")
+                        self.wfile.write(f.read())
+                except FileNotFoundError:
+                    self._set_headers("text/plain", 404)
+                    self.wfile.write(b"404 - File not found")
 
 
 
@@ -90,6 +106,7 @@ class SimpleBackend(BaseHTTPRequestHandler):
              self.handle_update_task(parsed_data)
         elif self.path == "/delete-task":
              self.handle_delete_task(parsed_data)
+
         else:
             self._set_headers("application/json", 404)
             self.wfile.write(json.dumps({"error": "Route not found"}).encode())
@@ -221,7 +238,7 @@ class SimpleBackend(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"message": "Task deleted successfully."}).encode())
         else:
             self.wfile.write(json.dumps({"error": "Task not found."}).encode())
-
+    
     def serve_html_file(self, filepath):
         """
         Serve an HTML file from the frontend directory.
