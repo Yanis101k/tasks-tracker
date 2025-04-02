@@ -70,7 +70,7 @@ class SimpleBackend(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps({"tasks": tasks_data}).encode())
                 
                 # make sure my back end serve static files 
-            elif self.path.startswith("/css/") or self.path.startswith("/js/"):
+            elif self.path.startswith("/css/") or self.path.startswith("/js/") or self.path.startswith("/assets/icons/"):
                 file_path = "frontend" + self.path
                 try:
                     with open(file_path, "rb") as f:
@@ -78,6 +78,15 @@ class SimpleBackend(BaseHTTPRequestHandler):
                             self._set_headers("text/css")
                         elif self.path.endswith(".js"):
                             self._set_headers("application/javascript")
+                        
+                        elif self.path.endswith(".png"):
+                            self._set_headers("image/png")
+                        elif self.path.endswith(".jpg") or self.path.endswith(".jpeg"):
+                            self._set_headers("image/jpeg")
+                        elif self.path.endswith(".svg"):
+                            self._set_headers("image/svg+xml")
+                        elif self.path.endswith(".ico"):
+                            self._set_headers("image/ico")
                         else:
                             self._set_headers("application/octet-stream")
                         self.wfile.write(f.read())
@@ -255,6 +264,6 @@ class SimpleBackend(BaseHTTPRequestHandler):
 # Run the server
 if __name__ == "__main__":
     print(f"🚀 Server running on http://localhost:{PORT}")
-    server_address = ("", PORT)
+    server_address = ("0.0.0.0", PORT)
     httpd = HTTPServer(server_address, SimpleBackend)
     httpd.serve_forever()

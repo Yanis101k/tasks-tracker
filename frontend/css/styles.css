@@ -214,4 +214,11 @@
       font-size: 0.95rem;
     }
   }
+
+  /* website logo styling */
   
+  .logo {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 120px;
+  }  
