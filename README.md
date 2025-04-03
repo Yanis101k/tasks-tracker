@@ -37,13 +37,13 @@ The source code for this project is available on GitHub: https://github.com/Yani
 
  Application features : 
 
-    - User registration and login
+   - User registration and login
 
-    - Task creation, editing, deletion
+   - Task creation, editing, deletion
 
-    - Live search by task title
+   - Live search by task title
 
-    - Responsive UI with modern styling
+   - Responsive UI with modern styling
  
  Libraries Used
 
