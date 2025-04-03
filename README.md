@@ -66,3 +66,13 @@ The source code for this project is available on GitHub: https://github.com/Yani
   data/: Stores tasks and users in JSON files
 
   tests/: Contains test cases for backend logic
+
+ Unit Tests
+
+  The project includes test cases for user and task models, as well as authentication logic.
+
+  To run the unit tests, navigate to the project directory and run:
+
+  python -m unittest discover tests
+
+  This will run all the test cases defined in the test files in the tests/ folder.
