@@ -17,3 +17,32 @@ The source code for this project is available on GitHub: https://github.com/Yani
   The app allows users to register, log in, and manage their personal tasks with features like task creation, editing, deletion, and live searching. 
   Tasks are stored in a local JSON file.
  
+ Installation
+
+  To run the application, ensure you have Python installed, and then install the required dependencies from the requirements.txt file using the following command:
+  pip install -r requirements.txt
+ 
+ How to use : 
+  1 - Navigate to index.html to access the homepage.
+  2 - Register a new account.
+  3 - Log in with your credentials.
+  4 - Add, edit, delete, or search tasks.
+ 
+ Runing the application
+ 
+ 1 - open your terminal and change the directory to the root of project (tasks-tracker/) run this command :
+  python3 backend/app.py
+ 2 - Then open your browser and go to :
+  http://localhost:8000
+
+ Application features : 
+
+   1 -  User registration and login
+
+   2 - Task creation, editing, deletion
+
+   3 - Live search by task title
+
+   4 - Responsive UI with modern styling
+
+
