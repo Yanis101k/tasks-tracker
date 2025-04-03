@@ -37,12 +37,32 @@ The source code for this project is available on GitHub: https://github.com/Yani
 
  Application features : 
 
-   1 -  User registration and login
+    -  User registration and login
 
-   2 - Task creation, editing, deletion
+    - Task creation, editing, deletion
 
-   3 - Live search by task title
+    - Live search by task title
 
-   4 - Responsive UI with modern styling
+    - Responsive UI with modern styling
+ 
+ Libraries Used
 
+ The following libraries are used in this project:
 
+  - Python Standard Library (http.server, os, json)
+
+  - JavaScript (Vanilla)
+
+  - CSS (custom responsive design)
+ 
+  - html ( structure website content ) 
+
+ Project Structure
+
+  backend/: Contains the Python server and logic
+
+  frontend/: Contains HTML, CSS, JS for the user interface
+
+  data/: Stores tasks and users in JSON files
+
+  tests/: Contains test cases for backend logic
