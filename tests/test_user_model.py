@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from backend.core.models.user import User
 
 def test_user_model():
-    print("🔧 Creating a new User instance...")
+    print(" Creating a new User instance...")
     user = User(1, "yanis", "yanis@example.com", "1234")
 
     # Test getters

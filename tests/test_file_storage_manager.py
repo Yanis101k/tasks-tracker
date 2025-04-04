@@ -17,7 +17,7 @@ def test_file_storage():
         "id": len(users) + 1,
         "username": "yanis_test",
         "email": "yanis@example.com",
-        "password": "1234"  # Normally you'd hash this
+        "password": "1234"
     }
 
     print("Adding a new user:", new_user)
@@ -26,7 +26,7 @@ def test_file_storage():
 
     # Reload to verify
     updated_users = FileStorage.load_users()
-    print("✅ Users after saving:", updated_users)
+    print(" Users after saving:", updated_users)
 
     print(" Loading existing tasks...")
     tasks = FileStorage.load_tasks()
@@ -53,7 +53,7 @@ def test_file_storage():
 
     # Reload to verify
     updated_tasks = FileStorage.load_tasks()
-    print("✅ Tasks after saving:", updated_tasks)
+    print(" Tasks after saving:", updated_tasks)
 
 if __name__ == "__main__":
     test_file_storage()

@@ -4,7 +4,7 @@ from datetime import datetime
 
 class Task:
     """
-    Represents a Task entity with strict encapsulation using private attributes.
+    Represents a Task entity with strict encapsulation using private attributes .
     """
 
     def __init__(self, task_id, user_id, title, description="", due_date=None,
@@ -80,7 +80,7 @@ class Task:
 
     def to_dict(self):
         """
-        Convert the Task object to a dictionary for saving to JSON.
+        Convert the Task object to a dictionary for saving to JSON .
         """
         return {
             "id": self.__id,
@@ -98,7 +98,7 @@ class Task:
     @classmethod
     def from_dict(cls, data):
         """
-        Create a Task object from a dictionary (loaded from file).
+        Create a Task object from a dictionary (loaded from file) .
         """
         return cls(
             task_id=data.get("id"),
