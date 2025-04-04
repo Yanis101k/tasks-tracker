@@ -44,13 +44,13 @@
         });
 
         const result = await response.json();
-        console.log("📦 Server response:", result);
+        console.log(" Server response:", result);
 
         if (response.ok && result.message) {
-          messageDiv.textContent = "✅ " + result.message;
+          messageDiv.textContent = " " + result.message;
           messageDiv.style.color = "green";
 
-          // ✅ Store session and redirect to dashboard
+          // Store session and redirect to dashboard
           localStorage.setItem("username", result.username);
           window.location.href = "/dashboard";
         } else {
