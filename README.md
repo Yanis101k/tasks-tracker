@@ -15,7 +15,7 @@ The source code for this project is available on GitHub: https://github.com/Yani
  Introduction : 
   This code represents a simple implementation of a task tracking web application using HTML, CSS, JavaScript, and a Python backend.
   The app allows users to register, log in, and manage their personal tasks with features like task creation, editing, deletion, and live searching. 
-  Tasks are stored in a local JSON file.
+  Tasks are stored in a local JSON file , and i addded a custom desktop entry icon in my computer .
  
  Installation
 
